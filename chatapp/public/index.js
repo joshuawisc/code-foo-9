@@ -27,4 +27,8 @@ $(function() {
         socket.emit('get event', {my: 'data'});
     });
 
+    socket.on('username', function(data) {
+        console.log(`username ${data.username} received`);
+    });
+
 });
