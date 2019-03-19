@@ -6,7 +6,7 @@ $(function() {
 
 
     $('#div-username').hide();
-    $('#div-chat').hide();
+    //$('#div-chat').hide();
     console.log("js file");
 
     $('.btn-user').click((e) => {
@@ -52,7 +52,7 @@ $(function() {
     socket.on('ret message', (data) => {
         //console.log(data);
         if (data.text)
-            $('#board').append(`<p class="message">${data.text}</p>`);
+            $('#board').append(`<p class="message">${data.text}</p><br/>`);
         let children = $('#board').children();
         $('#board').scrollTop(children.height()*children.length);
         console.log(children.height()*children.length);
