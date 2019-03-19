@@ -4,25 +4,66 @@ body {
     background-color: white;
 }
 
+/* h1 {
+    text-align: center;
+} */
+
+#div-signin {
+    text-align: center;
+}
+
 * {
   outline: none;
+  text-align: center;
 }
 
 #board {
-    height: 65vh;
+    height: 70vh;
     width: 100%;
     overflow: auto;
+}
+
+#controls {
+    margin-top: 50px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cce6ff;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:active {
+  background: #99ccff;
 }
 
 .message {
     background-color: #3399ff;
     color: white;
     padding: 10px 20px;
-    margin: 1px;
+    margin: 1px 10px;;
     display: inline-block;
-    border-radius: 10px;
-    clear: left;
+    border-radius: 20px;
+    clear: both;
+}
+
+.left {
     float: left;
+}
+
+.right {
+    float: right;
 }
 
 input[type=text] {

@@ -51,8 +51,12 @@ $(function() {
 
     socket.on('ret message', (data) => {
         //console.log(data);
-        if (data.text)
-            $('#board').append(`<p class="message">${data.text}</p><br/>`);
+        if (data.text) {
+            if (data.from == user)
+                $('#board').append(`<p class="message right">${data.text}</p><br/>`);
+            else
+                $('#board').append(`<p class="message left">${data.text}</p><br/>`);
+        }
         let children = $('#board').children();
         $('#board').scrollTop(children.height()*children.length);
         console.log(children.height()*children.length);
