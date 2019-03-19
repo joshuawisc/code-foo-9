@@ -7,6 +7,7 @@ var MessageSchema = new Schema(
         from: {type: String, required: true},
         to: {type: String, required: true},
         text: {type: String},
+        time: { type: Date, default: Date.now},
 
     }
 );

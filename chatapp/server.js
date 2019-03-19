@@ -23,7 +23,7 @@ app.get('/', (req,res) => {
 });
 
 let Message = require('./messageModel.js');
-Message.findOne().sort({ date: -1}).limit(1).exec((err, data) => {
+Message.findOne().sort({ time: 1}).limit(1).exec((err, data) => {
     if (!data) {
         console.log("No Record!");
         let message = new Message({
@@ -45,6 +45,8 @@ Message.findOne().sort({ date: -1}).limit(1).exec((err, data) => {
 io.on('connection', function (socket) {
     //console.log('connected');
     socket.emit('check', {message: 'cheking connection'});
+
+    // Client first connected
     socket.on('user connected', function(data) {
         if (data.user == 1) {
             console.log('user 1');
@@ -54,6 +56,8 @@ io.on('connection', function (socket) {
             socket.emit('ret username', {username: username2});
         }
     });
+
+    // Client sets username and hits start chatting
     socket.on('set username', data => {
         console.log('save username received');
         console.log(data);
@@ -62,9 +66,40 @@ io.on('connection', function (socket) {
         else
             username2 = data.username;
         saveUsernames();
+        Message.find().sort({ time: -1}).limit(20).exec((err, data) => {
+            if (err)
+                console.log(err); // TODO:
+
+            // Reverse array so messages are in order of time sent
+            data.reverse();
+            console.log(data);
+            // Send past few messages to new client
+            data.forEach(message => {
+                socket.emit('ret message', message);
+            });
+
+        });
+
+    });
+
+    // Client sends a message
+    socket.on('send message', data => {
+        console.log('message received');
+        console.log(data);
+        let message = new Message({
+            from: data.from,
+            to: data.to,
+            text: data.text
+        });
+        message.save(error => {
+            if (error)
+            console.log(error)
+        });
+        io.emit('ret message', data);
     });
 });
 
+// Save username1 and username2 to first entry in DB
 function saveUsernames() {
     console.log(`saving ${username1} and ${username2}`)
     Message.findOne().sort({ date: -1}).limit(1).exec((err, data) => {

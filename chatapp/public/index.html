@@ -8,6 +8,7 @@
   crossorigin="anonymous" charset="utf-8"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="index.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <h1>Chat App</h1>
@@ -22,9 +23,9 @@
         </div>
         <div id="div-chat">
             <div id="board">
-                <input type="text">
             </div>
-            <button>Send</button>
+            <input id="input-message" type="text">
+            <button id="btn-send">Send</button>
         </div>
     </body>
 </html>
