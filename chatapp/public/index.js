@@ -1,12 +1,14 @@
-var socket = io.connect();
-var username;
-var user;
+let socket = io.connect();
+let username;
+let user;
+let days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
+let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 $(function() {
 
 
     $('#div-username').hide();
-    //$('#div-chat').hide();
+    $('#div-chat').hide();
     console.log("js file");
 
     $('.btn-user').click((e) => {
@@ -43,6 +45,8 @@ $(function() {
     });
 
 
+
+
     socket.on('ret username', (data) => {
         username = data.username;
         $('#input-username').val(username);
@@ -51,16 +55,31 @@ $(function() {
 
     socket.on('ret message', (data) => {
         //console.log(data);
+        let fDate = getFormattedDate(new Date(data.time));
         if (data.text) {
             if (data.from == user)
-                $('#board').append(`<p class="message right">${data.text}</p><br/>`);
+                $('#board').append(`<div class="message right"><p class="text">${data.text}</p><p class="time">${fDate}</p></div>`);
             else
-                $('#board').append(`<p class="message left">${data.text}</p><br/>`);
+                $('#board').append(`<div class="message left"><p class="text">${data.text}</p><p class="time">${fDate}</p></div>`);
         }
+        $('#board').children().last().click(showTime);
         let children = $('#board').children();
         $('#board').scrollTop(children.height()*children.length);
-        console.log(children.height()*children.length);
 
     });
 
 });
+
+function showTime(event) {
+    console.log($(event.target));
+    $(event.target.parentNode).find(".time").toggle(200);
+    // let children = $('#board').children();
+    // $('#board').scrollTop(children.height()*children.length);
+}
+
+function getFormattedDate(date) {
+    let minutes = date.getMinutes();
+    if (minutes < 10)
+        minutes = "0" + minutes;
+    return days[date.getDay()] + ", " + months[date.getMonth()] + " " + date.getDate() + " " + date.getHours() + ":" + minutes;
+}

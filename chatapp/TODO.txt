@@ -1,7 +1,14 @@
-- clear text when message is sent
-- load old messages on top
 - delete all messages
 - show timestamps
 - go back from each screen
+
+
+- show username
+- load old messages on top
 - seen
 - typing indicator
+
+- dark mode
+- clear text when message is sent
+- narrow board
+- icons

@@ -38,6 +38,7 @@ Message.findOne().sort({ time: 1}).limit(1).exec((err, data) => {
         username1 = "user1";
         username2 = "user2";
     } else {
+        console.log(data);
         username1 = data.from;
         username2 = data.to;
     }
@@ -72,7 +73,7 @@ io.on('connection', function (socket) {
 
             // Reverse array so messages are in order of time sent
             data.reverse();
-            console.log(data);
+            //console.log(data);
             // Send past few messages to new client
             data.forEach(message => {
                 socket.emit('ret message', message);
@@ -85,16 +86,17 @@ io.on('connection', function (socket) {
     // Client sends a message
     socket.on('send message', data => {
         console.log('message received');
-        console.log(data);
+        //console.log(data);
         let message = new Message({
             from: data.from,
             to: data.to,
-            text: data.text
+            text: data.text,
         });
         message.save(error => {
             if (error)
             console.log(error)
         });
+        data.time = message.time;
         io.emit('ret message', data);
     });
 });
@@ -102,9 +104,10 @@ io.on('connection', function (socket) {
 // Save username1 and username2 to first entry in DB
 function saveUsernames() {
     console.log(`saving ${username1} and ${username2}`)
-    Message.findOne().sort({ date: -1}).limit(1).exec((err, data) => {
+    Message.findOne().sort({ time: 1}).limit(1).exec((err, data) => {
         if (!data)
             console.log("Error finding first record");
+        console.log(data);
         data.from = username1;
         data.to = username2;
         data.save(error => {

@@ -49,20 +49,53 @@ body {
 }
 
 .message {
-    background-color: #3399ff;
+    height: auto;
+    max-width: 50%;
     color: white;
-    padding: 10px 20px;
-    margin: 1px 10px;;
+    padding: 0px 0px;
+    margin: 1px 10px;
     display: inline-block;
     border-radius: 20px;
     clear: both;
+
+
+}
+
+.text {
+    background-color: #3399ff;
+    color: white;
+    max-width: 100%;
+    border-radius: 20px;
+    padding: 10px 10px;
+    margin: 0px;
+    word-wrap: break-word;
+    overflow: auto;
+    float: right;
+}
+
+.time {
+    clear: both;
+    color: black;
+    margin: 0px;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 300;
+    display: none;
 }
 
 .left {
     float: left;
 }
 
+.left > .text {
+    float: left;
+}
+
 .right {
+    float: right;
+}
+
+.right > .text {
     float: right;
 }
 
@@ -85,9 +118,9 @@ input[type=text]:focus {
 }
 
 #input-message {
-    width: 65%;
+    width: 50%;
     position: absolute;
-    left: 0%;
+    left: 10%;
 
     /*##transform: translate(-50%, -50%);*/
 }
