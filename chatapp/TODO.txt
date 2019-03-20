@@ -8,10 +8,11 @@
 - typing indicator
 
 - dark mode
-- clear text when message is sent
 - narrow board
 - icons
 - color everything better
 
 // DONE
 - show timestamps
+- enter to sends
+- clear text when message is sent

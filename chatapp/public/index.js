@@ -42,6 +42,7 @@ $(function() {
         else
             to = 1;
         socket.emit('send message', {from: user, to: to, text: message});
+        $('#input-message').val("");
     });
 
     // Send message if enter is pressed in message box
