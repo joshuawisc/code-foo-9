@@ -44,12 +44,20 @@ $(function() {
         socket.emit('send message', {from: user, to: to, text: message});
     });
 
+    // Send message if enter is pressed in message box
+    $('#input-message').keypress((e) => {
+        if (e.which == 13) {
+            $('#btn-send').trigger('click');
+        }
+    });
+
 
 
 
     socket.on('ret username', (data) => {
         username = data.username;
         $('#input-username').val(username);
+        $('#header-username').text(data.otherUsername);
         console.log(`username ${data.username} received`);
     });
 

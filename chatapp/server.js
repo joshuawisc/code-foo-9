@@ -51,10 +51,10 @@ io.on('connection', function (socket) {
     socket.on('user connected', function(data) {
         if (data.user == 1) {
             console.log('user 1');
-            socket.emit('ret username', {username: username1});
+            socket.emit('ret username', {username: username1, otherUsername: username2});
         } else {
             console.log('user 2');
-            socket.emit('ret username', {username: username2});
+            socket.emit('ret username', {username: username2, otherUsername: username1});
         }
     });
 
