@@ -65,6 +65,10 @@ $(function() {
         }
     });
 
+    // $('#btn-dark').click(() => {
+    //      $("html").attr("style","--prim:#1B2631; --prim-light: #212F3C; --prim-lighter: #2E4053; --prim-lightest: #AEB6BF; --prim-dark: #2E4053");
+    // });
+
 
 
     socket.on('ret username', (data) => {

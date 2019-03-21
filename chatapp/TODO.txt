@@ -4,14 +4,10 @@
 // Icons & Indicators
 - seen
 - typing indicator
-- loading indicator
 - icons
 
 // Visuals
 - dark mode
-- narrow board
-- color everything better
-- scrollbar hover
 
 // DONE
 - show timestamps
@@ -19,3 +15,6 @@
 - clear text when message is sent
 - show username
 - load old messages on top
+- narrow board
+- scrollbar hover
+- color everything better
