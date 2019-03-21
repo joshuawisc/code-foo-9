@@ -3,6 +3,7 @@ let username;
 let user;
 let days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let $oldMessage; // Store id of message that was previously on top to jump to it after loading older messages
 
 $(function() {
 
@@ -55,10 +56,11 @@ $(function() {
     // Check if scrolled up and load new messages
     $('#board').scroll((e) => {
         let $board = $('#board');
-        //console.log($board.scrollTop());
+        console.log($board.scrollTop());
         if ($board.scrollTop() == 0) {
             let time = $board.children().first().find('.time').attr('id')
             console.log(time);
+            $oldMessage = $board.children().first();
             socket.emit('get messages', {time: time});
         }
     });
@@ -101,6 +103,8 @@ $(function() {
             }
             $('#board').children().first().click(showTime);
         });
+        console.log($oldMessage);
+        $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop());
     });
 
 });

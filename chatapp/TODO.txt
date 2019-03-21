@@ -1,18 +1,21 @@
 - delete all messages
 - go back from each screen
 
-
-- load old messages on top
+// Icons & Indicators
 - seen
 - typing indicator
+- loading indicator
+- icons
 
+// Visuals
 - dark mode
 - narrow board
-- icons
 - color everything better
+- scrollbar hover
 
 // DONE
 - show timestamps
-- enter to sends
+- enter to send
 - clear text when message is sent
 - show username
+- load old messages on top
