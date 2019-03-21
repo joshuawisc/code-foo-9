@@ -38,7 +38,7 @@ Message.findOne().sort({ time: 1}).limit(1).exec((err, data) => {
         username1 = "user1";
         username2 = "user2";
     } else {
-        console.log(data);
+        //console.log(data);
         username1 = data.from;
         username2 = data.to;
     }
@@ -61,7 +61,7 @@ io.on('connection', function (socket) {
     // Client sets username and hits start chatting
     socket.on('set username', data => {
         console.log('save username received');
-        console.log(data);
+        //console.log(data);
         if (data.user == 1)
             username1 = data.username;
         else
@@ -99,6 +99,23 @@ io.on('connection', function (socket) {
         data.time = message.time;
         io.emit('ret message', data);
     });
+
+    // Get next 10 messages before data.time
+    socket.on('get messages', data => {
+        Message.find({time: { $lt: data.time } }).sort({ time: -1 }).limit(10).exec((err,docs) => {
+            if (err)
+                console.log(err); // TODO:
+            console.log(docs);
+            // Reverse array so messages are in order of time sent
+            // data.reverse();
+            // //console.log(data);
+            // // Send past few messages to new client
+            // data.forEach(message => {
+            //     socket.emit('ret message', message);
+            // });
+            socket.emit('ret old messages', docs);
+        });
+    });
 });
 
 // Save username1 and username2 to first entry in DB
@@ -107,7 +124,7 @@ function saveUsernames() {
     Message.findOne().sort({ time: 1}).limit(1).exec((err, data) => {
         if (!data)
             console.log("Error finding first record");
-        console.log(data);
+        //console.log(data);
         data.from = username1;
         data.to = username2;
         data.save(error => {

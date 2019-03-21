@@ -52,6 +52,16 @@ $(function() {
         }
     });
 
+    // Check if scrolled up and load new messages
+    $('#board').scroll((e) => {
+        let $board = $('#board');
+        //console.log($board.scrollTop());
+        if ($board.scrollTop() == 0) {
+            let time = $board.children().first().find('.time').attr('id')
+            console.log(time);
+            socket.emit('get messages', {time: time});
+        }
+    });
 
 
 
@@ -67,14 +77,30 @@ $(function() {
         let fDate = getFormattedDate(new Date(data.time));
         if (data.text) {
             if (data.from == user)
-                $('#board').append(`<div class="message right"><p class="text">${data.text}</p><p class="time">${fDate}</p></div>`);
+                $('#board').append(`<div class="message right"><p class="text">${data.text}</p><p class="time" id="${data.time}">${fDate}</p></div>`);
             else
-                $('#board').append(`<div class="message left"><p class="text">${data.text}</p><p class="time">${fDate}</p></div>`);
+                $('#board').append(`<div class="message left"><p class="text">${data.text}</p><p class="time" id="${data.time}">${fDate}</p></div>`);
         }
         $('#board').children().last().click(showTime);
         let children = $('#board').children();
         $('#board').scrollTop(children.height()*children.length);
 
+    });
+
+    socket.on('ret old messages', (data) => {
+        console.log(data);
+        data.forEach(message => {
+            if (!message.text)
+                return;
+            let fDate = getFormattedDate(new Date(message.time));
+            if (message.text) {
+                if (message.from == user)
+                    $('#board').prepend(`<div class="message right"><p class="text">${message.text}</p><p class="time" id="${message.time}">${fDate}</p></div>`);
+                else
+                    $('#board').prepend(`<div class="message left"><p class="text">${message.text}</p><p class="time" id="${message.time}">${fDate}</p></div>`);
+            }
+            $('#board').children().first().click(showTime);
+        });
     });
 
 });

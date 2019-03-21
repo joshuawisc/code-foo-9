@@ -2,7 +2,6 @@
 - go back from each screen
 
 
-- show username
 - load old messages on top
 - seen
 - typing indicator
@@ -16,3 +15,4 @@
 - show timestamps
 - enter to sends
 - clear text when message is sent
+- show username
