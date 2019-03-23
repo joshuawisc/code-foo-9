@@ -8,6 +8,7 @@
 
 // Visuals
 - dark mode
+- scroll to bottom
 
 // DONE
 - show timestamps

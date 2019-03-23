@@ -76,6 +76,11 @@ io.on('connection', function (socket) {
             }
             socket.emit('ret user', {user: docs});
         });
+
+
+    });
+
+    socket.on('get messages', () => {
         Message.find().sort({ time: -1}).limit(20).exec((err, data) => {
             if (err)
                 console.log(err); // TODO:
@@ -89,7 +94,6 @@ io.on('connection', function (socket) {
             });
 
         });
-
     });
 
     // Client sends a message
@@ -110,7 +114,7 @@ io.on('connection', function (socket) {
     });
 
     // Get next 10 messages before data.time
-    socket.on('get messages', data => {
+    socket.on('get old messages', data => {
         Message.find({time: { $lt: data.time } }).sort({ time: -1 }).limit(10).exec((err,docs) => {
             if (err)
                 console.log(err); // TODO:
