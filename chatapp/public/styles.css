@@ -226,3 +226,7 @@ button:focus {
     display: none;
     z-index: 1;
 }
+
+.dot {
+    display: none;
+}

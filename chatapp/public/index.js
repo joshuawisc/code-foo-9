@@ -113,9 +113,11 @@ $(function() {
 
     socket.on('user typing', data => {
         // TODO: show typing
-        $('#div-typing > p').text(`${data.username} is typing ...`);
+        $('#div-typing').empty();
+        $('#div-typing').append(`<p>${data.username} is typing <span class="dot">.</span> <span class="dot">.</span> <span class="dot">.</span></p>`);
         $('#div-typing').show(200);
-        //setTimeout(function() {$('#div-typing').hide(200)} , 5000);
+        setTimeout(animDots, 500, 0);
+        setTimeout(function() {$('#div-typing').hide(200)} , 5000);
     });
 
 });
@@ -124,6 +126,17 @@ function showTime(event) {
     $(event.target.parentNode).find(".time").toggle(200);
     // let children = $('#board').children();
     // $('#board').scrollTop(children.height()*children.length);
+}
+
+function animDots(index) {
+    if (!$('#div-typing').is(":visible"))
+        return;
+    if (index == 3) {
+        $('.dot').toggle();
+        index = 0;
+    }
+    $('.dot').eq(index).toggle();
+    setTimeout(animDots, 1000, index+1);
 }
 
 function getFormattedDate(date) {

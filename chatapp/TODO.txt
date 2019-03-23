@@ -3,7 +3,6 @@
 
 // Icons & Indicators
 - seen
-- typing indicator
 - icons
 
 // Visuals
@@ -19,3 +18,4 @@
 - narrow board
 - scrollbar hover
 - color everything better
+- typing indicator
