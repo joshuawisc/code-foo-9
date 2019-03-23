@@ -52,8 +52,9 @@ $(function() {
         let $board = $('#board');
         console.log($board.scrollTop());
         if ($board.scrollTop() == 0) {
-            let time = $board.children().first().find('.time').attr('id').split(" ")[0];
+            let time = $board.find('.time').first().attr('id').split(" ")[0];
             console.log(time);
+            $board.children().first().remove(); // Remove username to prevent duplicates from showing
             $oldMessage = $board.children().first();
             socket.emit('get old messages', {time: time});
         }
@@ -88,26 +89,43 @@ $(function() {
         }
         $('#board').children().last().click(showTime);
         let children = $('#board').children();
-        console.log($('#board').attr('scrollHeight'));
+        console.log($('#board').scrollHeight);
         $('#board').scrollTop($('#board').scrollHeight);
 
     });
 
     socket.on('ret old messages', (data) => {
         //console.log(data);
+        // TODO add linefor name
         data.forEach(message => {
             if (!message.text)
                 return;
             let fDate = getFormattedDate(new Date(message.time));
-            if (message.text) {
-                if (message.from.username == user.username)
-                    $('#board').prepend(`<div class="message right"><p class="text">${message.text}</p><p class="time" id="${message.time}">${fDate}</p></div>`);
+            let prevUsername = $('#board').find('.time').first().attr('id').split(" ")[1];
+            console.log(prevUsername);
+            if (prevUsername != message.from.username) {
+                if (prevUsername == user.username)
+                    $('#board').prepend(`<div class="username-display right">${prevUsername}</div>`);
                 else
-                    $('#board').prepend(`<div class="message left"><p class="text">${message.text}</p><p class="time" id="${message.time}">${fDate}</p></div>`);
+                    $('#board').prepend(`<div class="username-display left">${prevUsername}</div>`);
+
             }
+            if (message.from.username == user.username)
+                $('#board').prepend(`<div class="message right"><p class="text">${message.text}</p><p class="time" id="${message.time} ${message.from.username}">${fDate}</p></div>`);
+            else
+                $('#board').prepend(`<div class="message left"><p class="text">${message.text}</p><p class="time" id="${message.time} ${message.from.username}">${fDate}</p></div>`);
+
             $('#board').children().first().click(showTime);
         });
         //console.log($oldMessage);
+
+        // Display username for last message received
+        let prevUsername = $('#board').find('.time').first().attr('id').split(" ")[1];
+        //console.log(prevUsername);
+        if (prevUsername == user.username)
+            $('#board').prepend(`<div class="username-display right">${prevUsername}</div>`);
+        else
+            $('#board').prepend(`<div class="username-display left">${prevUsername}</div>`);
         $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop());
     });
 
