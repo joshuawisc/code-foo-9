@@ -10,10 +10,8 @@ $(function() {
 
     //$('#div-username').hide();
     $('#div-chat').hide();
-    //console.log("js file");
 
     // $('.btn-user').click((e) => {
-    //     console.log(e.target.id);
     //     if (e.target.id == "user1") {
     //         socket.emit('user connected', {user: 1});
     //         user = 1;
@@ -50,10 +48,8 @@ $(function() {
     // Check if scrolled up and load new messages
     $('#board').scroll((e) => {
         let $board = $('#board');
-        console.log($board.scrollTop());
         if ($board.scrollTop() == 0) {
             let time = $board.find('.time').first().attr('id').split(" ")[0];
-            console.log(time);
             $board.children().first().remove(); // Remove username to prevent duplicates from showing
             $oldMessage = $board.children().first();
             socket.emit('get old messages', {time: time});
@@ -71,7 +67,6 @@ $(function() {
     });
 
     socket.on('ret message', (data) => {
-        console.log(user);
         let fDate = getFormattedDate(new Date(data.time));
         // Check if sender of last message is different from current
         if ($('#board').children().last().find('.time').length == 0 || $('#board').children().last().find('.time').attr('id').split(" ")[1] != data.from.username) {
@@ -89,20 +84,19 @@ $(function() {
         }
         $('#board').children().last().click(showTime);
         let children = $('#board').children();
-        console.log($('#board').scrollHeight);
-        $('#board').scrollTop($('#board').scrollHeight);
+        console.log("scrollTop: " + $('#board').scrollTop());
+        console.log("scrollHeight: " + $('#board')[0].scrollHeight);
+        $('#board').scrollTop($('#board')[0].scrollHeight);
 
     });
 
     socket.on('ret old messages', (data) => {
-        //console.log(data);
         // TODO add linefor name
         data.forEach(message => {
             if (!message.text)
                 return;
             let fDate = getFormattedDate(new Date(message.time));
             let prevUsername = $('#board').find('.time').first().attr('id').split(" ")[1];
-            console.log(prevUsername);
             if (prevUsername != message.from.username) {
                 if (prevUsername == user.username)
                     $('#board').prepend(`<div class="username-display right">${prevUsername}</div>`);
@@ -117,22 +111,19 @@ $(function() {
 
             $('#board').children().first().click(showTime);
         });
-        //console.log($oldMessage);
 
         // Display username for last message received
         let prevUsername = $('#board').find('.time').first().attr('id').split(" ")[1];
-        //console.log(prevUsername);
         if (prevUsername == user.username)
             $('#board').prepend(`<div class="username-display right">${prevUsername}</div>`);
         else
             $('#board').prepend(`<div class="username-display left">${prevUsername}</div>`);
-        $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop());
+        $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop() - 20);
     });
 
 });
 
 function showTime(event) {
-    console.log($(event.target));
     $(event.target.parentNode).find(".time").toggle(200);
     // let children = $('#board').children();
     // $('#board').scrollTop(children.height()*children.length);
