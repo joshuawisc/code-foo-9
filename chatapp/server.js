@@ -129,6 +129,10 @@ io.on('connection', function (socket) {
             socket.emit('ret old messages', docs);
         });
     });
+
+    socket.on('typing', data => {
+        socket.broadcast.emit('user typing', data);
+    });
 });
 
 // Save username1 and username2 to first entry in DB

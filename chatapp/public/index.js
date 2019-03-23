@@ -8,20 +8,7 @@ let $oldMessage; // Store id of message that was previously on top to jump to it
 $(function() {
 
 
-    //$('#div-username').hide();
     $('#div-chat').hide();
-
-    // $('.btn-user').click((e) => {
-    //     if (e.target.id == "user1") {
-    //         socket.emit('user connected', {user: 1});
-    //         user = 1;
-    //     } else {
-    //         socket.emit('user connected', {user: 2});
-    //         user = 2;
-    //     }
-    //     $('#div-signin').hide();
-    //     $('#div-username').show();
-    // });
 
     $('#btn-start').click(() => {
         username = $('#input-username').val();
@@ -43,6 +30,10 @@ $(function() {
         if (e.which == 13) {
             $('#btn-send').trigger('click');
         }
+    });
+
+    $('#input-message').keydown(() => {
+        socket.emit('typing', {username: user.username});
     });
 
     // Check if scrolled up and load new messages
@@ -91,7 +82,6 @@ $(function() {
     });
 
     socket.on('ret old messages', (data) => {
-        // TODO add linefor name
         data.forEach(message => {
             if (!message.text)
                 return;
@@ -119,6 +109,13 @@ $(function() {
         else
             $('#board').prepend(`<div class="username-display left">${prevUsername}</div>`);
         $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop() - 20);
+    });
+
+    socket.on('user typing', data => {
+        // TODO: show typing
+        $('#div-typing > p').text(`${data.username} is typing ...`);
+        $('#div-typing').show(200);
+        //setTimeout(function() {$('#div-typing').hide(200)} , 5000);
     });
 
 });
