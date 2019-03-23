@@ -1,5 +1,4 @@
 - delete all messages
-- go back from each screen
 
 // Icons & Indicators
 - seen
@@ -7,7 +6,6 @@
 
 // Visuals
 - dark mode
-- scroll to bottom
 
 // DONE
 - show timestamps
@@ -19,3 +17,4 @@
 - scrollbar hover
 - color everything better
 - typing indicator
+- scroll to bottom

@@ -4,6 +4,8 @@ let user;
 let days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 let $oldMessage; // Store id of message that was previously on top to jump to it after loading older messages
+let timeout;
+let animTimeout;
 
 $(function() {
 
@@ -113,11 +115,17 @@ $(function() {
 
     socket.on('user typing', data => {
         // TODO: show typing
+        if ($('#div-typing').is(":visible")) {
+            clearTimeout(timeout);
+            $("#typing-username").text(data.username);
+            timeout = setTimeout(function() {$('#div-typing').hide(200)} , 5000);
+            return;
+        }
         $('#div-typing').empty();
-        $('#div-typing').append(`<p>${data.username} is typing <span class="dot">.</span> <span class="dot">.</span> <span class="dot">.</span></p>`);
+        $('#div-typing').append(`<p><span id="typing-username">${data.username}</span> is typing <span class="dot">.</span> <span class="dot">.</span> <span class="dot">.</span></p>`);
         $('#div-typing').show(200);
-        setTimeout(animDots, 500, 0);
-        setTimeout(function() {$('#div-typing').hide(200)} , 5000);
+        animTimeout = setTimeout(animDots, 500, 0);
+        timeout = setTimeout(function() {$('#div-typing').hide(200)} , 5000);
     });
 
 });
@@ -136,7 +144,7 @@ function animDots(index) {
         index = 0;
     }
     $('.dot').eq(index).toggle();
-    setTimeout(animDots, 1000, index+1);
+    animTimeout = setTimeout(animDots, 1000, index+1);
 }
 
 function getFormattedDate(date) {
