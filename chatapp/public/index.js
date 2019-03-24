@@ -110,7 +110,7 @@ $(function() {
             $('#board').prepend(`<div class="username-display right">${prevUsername}</div>`);
         else
             $('#board').prepend(`<div class="username-display left">${prevUsername}</div>`);
-        $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop() - 20);
+        $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop() - 30);
     });
 
     socket.on('user typing', data => {
@@ -131,7 +131,10 @@ $(function() {
 });
 
 function showTime(event) {
-    $(event.target.parentNode).find(".time").toggle(200);
+    if ($(event.target).attr('class') == 'text')
+        $(event.target.parentNode).find(".time").toggle(200);
+    else
+        $(event.target).find(".time").toggle(200);
     // let children = $('#board').children();
     // $('#board').scrollTop(children.height()*children.length);
 }
