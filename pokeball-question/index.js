@@ -89,7 +89,7 @@ $(function() {
 
 
     let towerGeom = new THREE.CylinderGeometry(10, 10, 60, 40);
-    let towerMat = new THREE.MeshLambertMaterial({color: "gray"});
+    let towerMat = new THREE.MeshLambertMaterial({color: "#ffff4d"});
     let tower = new THREE.Mesh(towerGeom, towerMat);
     tower.position.y = -350;
     //.rotateX(Math.PI/2)
@@ -136,14 +136,30 @@ $(function() {
             pokeball.position.y += event.deltaY * 0.05;
         renderer.render(scene, camera);
 
+        console.log($('#coit-vol').offset().top);
+        // If tower's labels are visible, scroll them with the tower
+        if ($('#coit-vol').offset().top != 0 && ($('#coit-vol').offset().top < 780 && event.deltaY < 0) || ($('#coit-vol').offset().top > 540  && event.deltaY > 0)) {
+            console.log(`${$('#coit-vol').offset().top - (event.deltaY)}px`);
+            $('#coit-vol').css('top', `${$('#coit-vol').offset().top - (event.deltaY * 0.16)}px`);
+            $('#coit-diam').css('top', `${$('#coit-diam').offset().top - (event.deltaY * 0.16)}px`);
+            $('#coit-height').css('top', `${$('#coit-height').offset().top - (event.deltaY * 0.16)}px`);
+        }
+
         $('#text > p').hide();
-        console.log(Math.abs(camera.position.y - pokeStack[0].position.y));
-        if (Math.abs(camera.position.y - pokeStack[0].position.y) < 80)
+        $('.label').hide();
+        //console.log(Math.abs(camera.position.y - pokeStack[0].position.y));
+        if (Math.abs(camera.position.y - pokeStack[0].position.y) < 100)
             $('#text-lattice').show();
-        else if(camera.position.y < pokeStack[0].position.y - 60)
+        else if(camera.position.y < pokeStack[0].position.y - 60) {
+            $('#coit-vol').show();
+            $('#coit-diam').show();
+            $('#coit-height').show();
             $('#text-answer').show();
-        else
+        } else {
+            $('#poke-vol').show();
+            $('#poke-diam').show();
             $('#text-intro').show();
+        }
     });
 
     //render();
