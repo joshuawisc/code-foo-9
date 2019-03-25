@@ -1,5 +1,0 @@
--add links
--add labels
--add rotate
--show intro at beg
--scroll on arrow keys

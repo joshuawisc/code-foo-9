@@ -4,8 +4,8 @@ let user;
 let days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 let $oldMessage; // Store id of message that was previously on top to jump to it after loading older messages
-let timeout;
-let animTimeout;
+let timeout; // Store timeout of typing indicator
+let animTimeout; // Store timeout for dots animation
 
 $(function() {
 
@@ -34,11 +34,12 @@ $(function() {
         }
     });
 
+    // Typing indicator
     $('#input-message').keydown(() => {
         socket.emit('typing', {username: user.username});
     });
 
-    // Check if scrolled up and load new messages
+    // Check if scrolled to the top and load new messages
     $('#board').scroll((e) => {
         let $board = $('#board');
         if ($board.scrollTop() == 0) {
@@ -49,19 +50,15 @@ $(function() {
         }
     });
 
-    // $('#btn-dark').click(() => {
-    //      $("html").attr("style","--prim:#1B2631; --prim-light: #212F3C; --prim-lighter: #2E4053; --prim-lightest: #AEB6BF; --prim-dark: #2E4053");
-    // });
-
     socket.on('ret user', (data) => {
         user = data.user;
-        console.log(`user ${data.user.username} received`);
         socket.emit('get messages');
     });
 
+    // Receive message from server and display
     socket.on('ret message', (data) => {
         let fDate = getFormattedDate(new Date(data.time));
-        // Check if sender of last message is different from current
+        // Check if sender of last message is different from current and display username if true
         if ($('#board').children().last().find('.time').length == 0 || $('#board').children().last().find('.time').attr('id').split(" ")[1] != data.from.username) {
             if (data.from.username == user.username)
                 $('#board').append(`<div class="username-display right">${data.from.username}</div>`);
@@ -77,12 +74,14 @@ $(function() {
         }
         $('#board').children().last().click(showTime);
         let children = $('#board').children();
-        console.log("scrollTop: " + $('#board').scrollTop());
-        console.log("scrollHeight: " + $('#board')[0].scrollHeight);
+
+        // Scroll down to new message
         $('#board').scrollTop($('#board')[0].scrollHeight);
 
     });
 
+
+    // Receive old message form server and display
     socket.on('ret old messages', (data) => {
         data.forEach(message => {
             if (!message.text)
@@ -113,8 +112,9 @@ $(function() {
         $('#board').scrollTop($oldMessage.offset().top - $('#board').offset().top + $('#board').scrollTop() - 30);
     });
 
+    // Receive typing indicator from server
     socket.on('user typing', data => {
-        // TODO: show typing
+        // If there is currently an indicator, change the username and extend the time
         if ($('#div-typing').is(":visible")) {
             clearTimeout(timeout);
             $("#typing-username").text(data.username);
@@ -124,21 +124,23 @@ $(function() {
         $('#div-typing').empty();
         $('#div-typing').append(`<p><span id="typing-username">${data.username}</span> is typing <span class="dot">.</span> <span class="dot">.</span> <span class="dot">.</span></p>`);
         $('#div-typing').show(200);
+
+        // Animate the dots in the typing indicator
         animTimeout = setTimeout(animDots, 500, 0);
         timeout = setTimeout(function() {$('#div-typing').hide(200)} , 5000);
     });
 
 });
 
+// Toggles time, called when message is clicked
 function showTime(event) {
     if ($(event.target).attr('class') == 'text')
         $(event.target.parentNode).find(".time").toggle(200);
     else
         $(event.target).find(".time").toggle(200);
-    // let children = $('#board').children();
-    // $('#board').scrollTop(children.height()*children.length);
 }
 
+// Function to animate dots
 function animDots(index) {
     if (!$('#div-typing').is(":visible"))
         return;
@@ -150,6 +152,7 @@ function animDots(index) {
     animTimeout = setTimeout(animDots, 1000, index+1);
 }
 
+// Returns date in desired format
 function getFormattedDate(date) {
     let minutes = date.getMinutes();
     if (minutes < 10)

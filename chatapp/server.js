@@ -24,47 +24,16 @@ app.get('/', (req,res) => {
 
 let Message = require('./models/messageModel.js');
 let User = require('./models/userModel.js');
-// Message.findOne().sort({ time: 1}).limit(1).exec((err, data) => {
-//     if (!data) {
-//         console.log("No Record!");
-//         let message = new Message({
-//             from: "user1",
-//             to: "user2",
-//             message: ""
-//         });
-//         message.save(error => {
-//             if (error)
-//             console.log(error)
-//         });
-//         username1 = "user1";
-//         username2 = "user2";
-//     } else {
-//         //console.log(data);
-//         username1 = data.from;
-//         username2 = data.to;
-//     }
-// });
+
 io.on('connection', function (socket) {
-    // Client first connected
-    // socket.on('user connected', function(data) {
-    //     if (data.user == 1) {
-    //         console.log('user 1');
-    //         socket.emit('ret username', {username: username1, otherUsername: username2});
-    //     } else {
-    //         console.log('user 2');
-    //         socket.emit('ret username', {username: username2, otherUsername: username1});
-    //     }
-    // });
 
     // Client sets username and hits start chatting
     socket.on('sign in', data => {
         console.log(`${data.username} signed in`);
         User.findOne({username: data.username}).exec((err, docs) => {
-            console.log(docs);
             if (err)
                 console.log(err);
             if (!docs) {
-                console.log(`${data.username} not found`);
                 let user = new User({
                     username: data.username,
                 });
@@ -80,6 +49,7 @@ io.on('connection', function (socket) {
 
     });
 
+    //Called by client to get most recent messages after signing in
     socket.on('get messages', () => {
         Message.find().sort({ time: -1}).limit(20).exec((err, data) => {
             if (err)
@@ -87,7 +57,7 @@ io.on('connection', function (socket) {
 
             // Reverse array so messages are in order of time sent
             data.reverse();
-            //console.log(data);
+
             // Send past few messages to new client
             data.forEach(message => {
                 socket.emit('ret message', message);
@@ -98,9 +68,6 @@ io.on('connection', function (socket) {
 
     // Client sends a message
     socket.on('send message', data => {
-        console.log('message received');
-        //console.log(data);
-
         let message = new Message({
             from: data.from,
             text: data.text,
@@ -118,14 +85,6 @@ io.on('connection', function (socket) {
         Message.find({time: { $lt: data.time } }).sort({ time: -1 }).limit(10).exec((err,docs) => {
             if (err)
                 console.log(err); // TODO:
-            console.log(docs);
-            // Reverse array so messages are in order of time sent
-            // data.reverse();
-            // //console.log(data);
-            // // Send past few messages to new client
-            // data.forEach(message => {
-            //     socket.emit('ret message', message);
-            // });
             socket.emit('ret old messages', docs);
         });
     });
@@ -134,19 +93,3 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('user typing', data);
     });
 });
-
-// Save username1 and username2 to first entry in DB
-// function saveUsernames() {
-//     console.log(`saving ${username1} and ${username2}`)
-//     Message.findOne().sort({ time: 1}).limit(1).exec((err, data) => {
-//         if (!data)
-//             console.log("Error finding first record");
-//         //console.log(data);
-//         data.from = username1;
-//         data.to = username2;
-//         data.save(error => {
-//             if (error)
-//             console.log(error)
-//         });
-//     });
-// }
