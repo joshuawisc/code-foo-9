@@ -4,7 +4,7 @@ I found this question quite challenging and spent a lot of time trying to crack.
 
 I created an Item class to store the item's information. I then created five ArrayLists, one for each item type and 5th for all items. I then used 5 `for()` loops nested in one another to check through all the valid combinations possible and find the one with the highest value. This solution should work with any inventory but it is not very efficient. I believe the complexity is **O(n<sup>5</sup>)**.
 
-The items are read from the *witcher-inventory-csv.csv* file and so it can be changed to try other inventories. The maximum cost of 300 is hardcoded into the **maxCost** variable in the Main.java file which can be changed if need.
+The items are read from the *witcher-inventory-csv.csv* file and so it can be changed to try other inventories. The maximum cost of 300 is hardcoded into the **maxCost** variable in the Main.java file which can be changed if needed.
 
 ## Compiling and Running
 The file can be compiled and run in Linux using
