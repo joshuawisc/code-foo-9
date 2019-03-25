@@ -1,6 +1,15 @@
 
 # Pokeball Question
 
+I started learning three.js recently and decided to use that to visualize my answer.
+It can be found here: https://joshuawisc.github.io/pokemon/
+
+If you want to read the plain version, it is given below
+
+---
+
+
+
 According to [Bulbapedia][1] the size of a Pokeball switches between that of a baseball or a ping pong ball by pressing a button. My calculations will be under the assumption that the pokeballs are full sized.
 
 Diameter of Pokeball = 75*mm* [(From Wikipedia)][2]
