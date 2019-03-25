@@ -1,5 +1,7 @@
 # Chat Application
 
+I built this application using node.js for the backend, jQuery for the frontend and MongoDB to store the data. The database consists of 2 collection: *messages* and *users*. *users* just contains the username of each user and *messages* contains the content of the message, the sender (which is a user), and the time it was sent. More than 2 users can user the application but they all chat together. The app displays the username for the messages and positions the messages sent by the current user on the right side. The database is hosted on mLab and the authentication details are hardcoded into the server.js file.
+
 ## Installation
 Install the dependencies using
 ```
