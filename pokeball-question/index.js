@@ -58,7 +58,7 @@ $(function() {
     pokeStack = []
     let ballGeom = new THREE.SphereGeometry(20, 40, 40, 0);
     let ballMat = new THREE.MeshLambertMaterial({color: "gray"});
-    let ballMat2 = new THREE.MeshLambertMaterial({color: "pink", transparent: true, opacity: 0.5});
+    let ballMat2 = new THREE.MeshLambertMaterial({color: "#4dffa6", transparent: true, opacity: 0.5});
     for (let i = 0 ; i < 7 ; i++) {
         pokeStack[i] = new THREE.Mesh(ballGeom, ballMat);
         pokeStack[i].position.y = -170;
@@ -141,7 +141,7 @@ $(function() {
 
         console.log($('#coit-vol').offset().top);
         // If tower's labels are visible, scroll them with the tower
-        if ($('#coit-vol').offset().top != 0 && ($('#coit-vol').offset().top < 780 && event.deltaY < 0) || ($('#coit-vol').offset().top > 540  && event.deltaY > 0)) {
+        if ($('#coit-vol').offset().top != 0 && ($('#coit-vol').offset().top < 710 && event.deltaY < 0) || ($('#coit-vol').offset().top > 470  && event.deltaY > 0)) {
             console.log(`${$('#coit-vol').offset().top - (event.deltaY)}px`);
             $('#coit-vol').css('top', `${$('#coit-vol').offset().top - (event.deltaY * 0.16)}px`);
             $('#coit-diam').css('top', `${$('#coit-diam').offset().top - (event.deltaY * 0.16)}px`);
