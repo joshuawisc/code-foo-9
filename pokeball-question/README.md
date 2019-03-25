@@ -4,7 +4,7 @@
 I started learning three.js recently and decided to use that to visualize my answer. I didn't get time to make it responsive so it looks the best on a full size laptop screen.
 It can be found here: https://joshuawisc.github.io/pokemon/
 
-I was unable to find the diameter of Coit Tower so I used an approximate value that I got from Google Maps.
+I was unable to find the diameter of Coit Tower so I used an approximate value that I got from Google Maps. My calculations also assume that the inside of the tower is empty.
 
 If you want to read the plain version, it is given below
 
