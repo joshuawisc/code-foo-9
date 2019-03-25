@@ -1,3 +1,5 @@
+# Witcher Armor Question
+
 I found this question quite challenging and spent a lot of time trying to crack. Although I feel there is a better answer I was unable to find it. I recognized the problem as a variation of the Knapsack Problem but couldn't come up with a way to account for the types. I ended using a brute-force method.
 
 I created an Item class to store the item's information. I then created five ArrayLists, one for each item type and 5th for all items. I then used 5 `for()` loops nested in one another to check through all the valid combinations possible and find the one with the highest value. This solution should work with any inventory but it is not very efficient. I believe the complexity is **O(n<sup>5</sup>)**.
