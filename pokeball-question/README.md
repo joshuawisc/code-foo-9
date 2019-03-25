@@ -4,6 +4,8 @@
 I started learning three.js recently and decided to use that to visualize my answer.
 It can be found here: https://joshuawisc.github.io/pokemon/
 
+I was unable to find the diameter of Coit Tower so I used an approximate value that I got from Google Maps.
+
 If you want to read the plain version, it is given below
 
 ---
@@ -12,7 +14,7 @@ If you want to read the plain version, it is given below
 
 According to [Bulbapedia][1] the size of a Pokeball switches between that of a baseball or a ping pong ball by pressing a button. My calculations will be under the assumption that the pokeballs are full sized.
 
-Diameter of Pokeball = 75*mm* [(From Wikipedia)][2]
+Diameter of Pokeball = 75*mm* [(From Baseball Wikipedia)][2]
 
 Volume of Pokeball = 2.21 * 10<sup>-4</sup> m<sup>3</sup> (vol. of sphere)
 
