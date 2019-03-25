@@ -1,4 +1,7 @@
 $(function() {
+    $('#text-intro').show();
+    $('#poke-diam').show();
+    $('#poke-vol').show();
     let renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize((window.innerWidth - 20) / 2, window.innerHeight - 20);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -147,7 +150,6 @@ $(function() {
 
         $('#text > p').hide();
         $('.label').hide();
-        //console.log(Math.abs(camera.position.y - pokeStack[0].position.y));
         if (Math.abs(camera.position.y - pokeStack[0].position.y) < 100)
             $('#text-lattice').show();
         else if(camera.position.y < pokeStack[0].position.y - 60) {
@@ -162,5 +164,5 @@ $(function() {
         }
     });
 
-    //render();
+
 })
