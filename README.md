@@ -1,5 +1,6 @@
 # IGN Code Foo 9 application
-## by Joshua Mathews
+### by Joshua Mathews
+
 
 ### 1. Introduction
 
